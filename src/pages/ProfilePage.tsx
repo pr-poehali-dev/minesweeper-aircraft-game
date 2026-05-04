@@ -3,6 +3,7 @@ import Icon from '@/components/ui/icon';
 interface ProfilePageProps {
   balance: number;
   onNavigate: (page: string) => void;
+  userLogin?: string;
 }
 
 const historyItems = [
@@ -22,7 +23,7 @@ const stats = [
   { label: 'Кэшбек доступен', value: '340 ₽' },
 ];
 
-export default function ProfilePage({ balance, onNavigate }: ProfilePageProps) {
+export default function ProfilePage({ balance, onNavigate, userLogin }: ProfilePageProps) {
   return (
     <div className="min-h-screen pt-24 pb-12">
       <div className="max-w-4xl mx-auto px-4">
@@ -36,8 +37,8 @@ export default function ProfilePage({ balance, onNavigate }: ProfilePageProps) {
             🎮
           </div>
           <div className="text-center sm:text-left flex-1">
-            <h2 className="font-display text-2xl font-bold text-white">Игрок #14832</h2>
-            <p className="text-gray-400 text-sm mt-1">Регистрация: 01.03.2024 · VIP Статус: Серебряный 🥈</p>
+            <h2 className="font-display text-2xl font-bold text-white">{userLogin || 'Игрок'}</h2>
+            <p className="text-gray-400 text-sm mt-1">VIP Статус: Серебряный 🥈</p>
             <div className="flex items-center gap-2 mt-2 justify-center sm:justify-start">
               <span className="w-2 h-2 rounded-full bg-[var(--neon-green)]" />
               <span className="text-[var(--neon-green)] text-sm">В сети</span>

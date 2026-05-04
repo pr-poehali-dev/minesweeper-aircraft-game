@@ -1,0 +1,22 @@
+{
+  "tests": [
+    {
+      "name": "Register - create account",
+      "method": "POST",
+      "path": "/",
+      "body": {"action": "register"},
+      "expectedStatus": 200,
+      "expectedBody": {"ok": true},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Login - wrong credentials",
+      "method": "POST",
+      "path": "/",
+      "body": {"action": "login", "login": "nobody", "password": "wrong"},
+      "expectedStatus": 401,
+      "expectedBody": {"ok": false},
+      "bodyMatcher": "partial"
+    }
+  ]
+}

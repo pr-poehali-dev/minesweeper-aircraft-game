@@ -11,24 +11,36 @@ import BonusPage from '@/pages/BonusPage';
 import SupportPage from '@/pages/SupportPage';
 import AdminPage from '@/pages/AdminPage';
 
+interface UserData {
+  id: number;
+  login: string;
+  display_name: string;
+  balance: number;
+}
+
 export default function Index() {
   const [page, setPage] = useState('home');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [balance, setBalance] = useState(3450);
+  const [balance, setBalance] = useState(0);
   const [showLogin, setShowLogin] = useState(false);
+  const [userData, setUserData] = useState<UserData | null>(null);
 
   const handleBalanceChange = (amount: number) => {
     setBalance(prev => Math.max(0, prev + amount));
   };
 
-  const handleLogin = () => {
+  const handleLogin = (user: UserData) => {
     setIsLoggedIn(true);
     setShowLogin(false);
+    setUserData(user);
+    setBalance(user.balance);
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     setPage('home');
+    setUserData(null);
+    setBalance(0);
   };
 
   const openLogin = () => setShowLogin(true);
@@ -63,7 +75,7 @@ export default function Index() {
         <AviatrixPage balance={balance} onBalanceChange={handleBalanceChange} isLoggedIn={isLoggedIn} onLogin={openLogin} />
       )}
       {page === 'profile' && isLoggedIn && (
-        <ProfilePage balance={balance} onNavigate={navigateTo} />
+        <ProfilePage balance={balance} onNavigate={navigateTo} userLogin={userData?.login} />
       )}
       {page === 'deposit' && isLoggedIn && (
         <DepositPage onBalanceChange={handleBalanceChange} onNavigate={navigateTo} />
