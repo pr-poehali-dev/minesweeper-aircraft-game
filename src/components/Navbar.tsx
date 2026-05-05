@@ -25,6 +25,7 @@ export default function Navbar({ currentPage, onNavigate, balance, isLoggedIn, o
     { id: 'aviatrix', label: 'Авиатрикс', icon: 'Plane' },
     { id: 'bonuses', label: 'Бонусы', icon: 'Gift' },
     { id: 'support', label: 'Поддержка', icon: 'MessageCircle' },
+    { id: 'admin', label: 'Админ', icon: 'ShieldCheck' },
   ];
 
   if (isLoggedIn) {

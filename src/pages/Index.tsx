@@ -10,6 +10,7 @@ import WithdrawPage from '@/pages/WithdrawPage';
 import BonusPage from '@/pages/BonusPage';
 import SupportPage from '@/pages/SupportPage';
 import AdminPage from '@/pages/AdminPage';
+import AdminPasswordModal from '@/components/AdminPasswordModal';
 
 interface UserData {
   id: number;
@@ -24,6 +25,8 @@ export default function Index() {
   const [balance, setBalance] = useState(0);
   const [showLogin, setShowLogin] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [showAdminModal, setShowAdminModal] = useState(false);
+  const [adminUnlocked, setAdminUnlocked] = useState(false);
 
   const handleBalanceChange = (amount: number) => {
     setBalance(prev => Math.max(0, prev + amount));
@@ -48,6 +51,10 @@ export default function Index() {
   const navigateTo = (p: string) => {
     if ((p === 'profile' || p === 'deposit' || p === 'withdraw') && !isLoggedIn) {
       setShowLogin(true);
+      return;
+    }
+    if (p === 'admin' && !adminUnlocked) {
+      setShowAdminModal(true);
       return;
     }
     setPage(p);
@@ -93,14 +100,16 @@ export default function Index() {
         <AdminPage />
       )}
 
-      {isLoggedIn && (
-        <button
-          onClick={() => setPage('admin')}
-          className="fixed bottom-6 right-6 w-10 h-10 rounded-full bg-[rgba(255,140,0,0.1)] border border-[rgba(255,140,0,0.2)] text-[var(--neon-orange)] flex items-center justify-center opacity-20 hover:opacity-100 transition-opacity z-40"
-          title="Панель администратора"
-        >
-          🛡
-        </button>
+      {showAdminModal && (
+        <AdminPasswordModal
+          onClose={() => setShowAdminModal(false)}
+          onSuccess={() => {
+            setAdminUnlocked(true);
+            setShowAdminModal(false);
+            setPage('admin');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        />
       )}
 
       {showLogin && (
